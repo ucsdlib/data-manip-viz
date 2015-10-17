@@ -2,6 +2,11 @@
 layout: topic
 title: Data visualisation with ggplot2
 subtitle: Visualising data in R with ggplot2 package
+output:
+  dcTemplate::dc_lesson_template:
+    fig_width: 6
+    fig_height: 6
+    highlight: pygments
 minutes: 60
 ---
 

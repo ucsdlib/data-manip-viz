@@ -2,6 +2,11 @@
 layout: topic
 title: Aggregating and analyzing data with dplyr
 author: Data Carpentry contributors
+output:
+  dcTemplate::dc_lesson_template:
+    fig_width: 6
+    fig_height: 6
+    highlight: pygments
 ---
 
 ```{r, echo=FALSE, purl=FALSE, message = FALSE}
