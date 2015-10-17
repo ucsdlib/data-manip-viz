@@ -29,7 +29,7 @@ opts_knit$set(width = 75)
 **Location:  BLB Events Room**   
 **Sponsoring Library Programs: Research & Reference Advisory -- Data Services & Research Data Curation**  
 
-This 2 hour course includes a basic introduction to the R syntax, data structures, and language constructs.  We will also cover using RStudio, a tool to help manage R projects and write R scripts.  Following the basics, we will cover how to import data in CSV format into R and how to work with R's most used data structure,  a data.frame.  This course is geared to participants who are new to R and have no programming experience.  
+This 2 hour course includes a basic introduction to  data manipulation, analysis and visualization.  We will use Hadley Wickham's packages dplyr (for data manipulation) and ggplot2 (for plotting).  Both packages introduce a grammar for making it easier to work with data.  We will also cover using RStudio, a tool to help manage R projects and write R scripts.  This course is geared to participants who are new to R and have no programming experience.  
 
 **NOTE: This material is largely adapted from Data Carpentry's R for Ecology workshop lessons < http://www.datacarpentry.org/ >.***
 
