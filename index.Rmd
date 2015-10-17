@@ -1,0 +1,71 @@
+---
+title: "Data Manipulation, Analysis and Visualization in R"
+output:
+  dcTemplate::dc_lesson_template:
+    fig_width: 6
+    fig_height: 6
+    highlight: pygments
+---
+
+
+```{r knitr_init, echo = FALSE, cache = FALSE}
+library(knitr)
+
+## Global options
+options(max.print = "75")
+opts_chunk$set(cache = TRUE,
+               prompt = FALSE,
+               tidy = TRUE,
+               comment = "> #",
+               message = FALSE,
+               warning = FALSE)
+opts_knit$set(width = 75)
+```
+
+
+**Instructors:  Tim Dennis & Reid Otsuji**  
+**Dates:  10/21 & 11/5**  
+**Time: 10-noon**   
+**Location:  BLB Events Room**   
+**Sponsoring Library Programs: Research & Reference Advisory -- Data Services & Research Data Curation**  
+
+This 2 hour course includes a basic introduction to the R syntax, data structures, and language constructs.  We will also cover using RStudio, a tool to help manage R projects and write R scripts.  Following the basics, we will cover how to import data in CSV format into R and how to work with R's most used data structure,  a data.frame.  This course is geared to participants who are new to R and have no programming experience.  
+
+**NOTE: This material is largely adapted from Data Carpentry's R for Ecology workshop lessons < http://www.datacarpentry.org/ >.***
+
+<!--
+## Lessons:
+
+1. [Lesson 00 Before we start](00-before-we-start.html)
+2. [Lesson 01 Dplyr](01-dplyr.html)
+2. [Lesson 01 Data visualisation with ggplot2](01-intro-to-R.html)
+3. [Lesson 02 SQL databases and R](02-starting-with-data.html)
+-->
+
+## Requirements
+
+Participants are encouraged to use their own computers to insure the proper setup of tools for an efficient workflow.
+
+*These lessons assume no prior knowledge of the skills or tools*, but working through this lesson requires working copies of the software described below.  To most effectively use these materials, please make sure to install everything *before* working through this lesson.
+
+# Setup
+
+## R
+
+[R](http://www.r-project.org) is a programming language that is especially powerful for data exploration, visualization, and statistical analysis. To interact with R, we use [RStudio](http://www.rstudio.com/).
+
+## Windows {#r-windows}
+
+Install R by downloading and running [this .exe file](http://cran.r-project.org/bin/windows/base/release.htm) from [CRAN](http://cran.r-project.org/index.html). Also, please install the [RStudio IDE](http://www.rstudio.com/ide/download/desktop).
+
+## Mac OS X {#r-macosx}
+
+Install R by downloading and running [this .pkg file](http://cran.r-project.org/bin/macosx/R-latest.pkg) from
+[CRAN](http://cran.r-project.org/index.html). Also, please install the [RStudio IDE](http://www.rstudio.com/ide/download/desktop).
+
+
+## Linux {#r-linux}
+
+You can download the binary files for your distribution from [CRAN](http://cran.r-project.org/index.html). Or you can use your package manager (e.g. for Debian/Ubuntu run `sudo apt-get install r-base` and for Fedora run `sudo yum install R`). Also, please install the [RStudio IDE](http://www.rstudio.com/ide/download/desktop).
+
+
