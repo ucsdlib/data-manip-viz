@@ -33,14 +33,12 @@ This 2 hour course includes a basic introduction to  data manipulation, analysis
 
 **NOTE: This material is largely adapted from Data Carpentry's R for Ecology workshop lessons < http://www.datacarpentry.org/ >.***
 
-<!--
 ## Lessons:
 
 1. [Lesson 00 Before we start](00-before-we-start.html)
 2. [Lesson 01 Dplyr](01-dplyr.html)
 2. [Lesson 01 Data visualisation with ggplot2](01-intro-to-R.html)
 3. [Lesson 02 SQL databases and R](02-starting-with-data.html)
--->
 
 ## Requirements
 
