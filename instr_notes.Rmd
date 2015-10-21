@@ -54,7 +54,7 @@ surveys %>%
 
 * assign to a new object 
 
-```{r, purl = FALSE}
+```{r, results = 'hide', purl = FALSE}
 surveys_sml <- surveys %>%
   filter(weight < 5) %>%
   select(species_id, sex, weight)
@@ -67,7 +67,7 @@ surveys_sml
 > Using pipes, subset the data to include rows before 1995. Retain columns
 > `year`, `sex`, and `weight.`
 
-```{r}
+```{r, results = 'hide',}
 surveys %>%
   filter(year < 1995) %>%
   select(year, sex, weight)
@@ -77,22 +77,21 @@ surveys %>%
 * create new columns based on the values in existing columns
 * unit conversions or find the ratio of values in two columns
 
-```{r, purl = FALSE}
+```{r, results = 'hide',purl = FALSE}
 surveys %>%
   mutate(weight_kg = weight / 1000)
 ```
 
 * a new column of weight in kg (let;s look `head(surveys)`)
 
-```{r, purl = FALSE}
+```{r, results = 'hide', purl = FALSE}
 surveys %>%
   mutate(weight_kg = weight / 1000) 
 ```
 
-```{r, purl = FALSE}
+```{r, results = 'hide', purl = FALSE}
 surveys %>%
-  mutate(weight_kg = weight / 1000) %>%
-  head
+  mutate(weight_kg = weight / 1000)
 ```
 
 * first few rows are full of NAs
@@ -106,7 +105,7 @@ surveys %>%
 
 ### Split-apply-combine 
 
-*split the data into groups, apply some analysis to each group, and then combine the results
+* split the data into groups, apply some analysis to each group, and then combine the results
 * use `group_by`
 * show image
 
@@ -118,7 +117,7 @@ surveys %>%
 
 * `group_by()` is often used together with `summarize()` which collapses each group
 
-```{r, purl = FALSE}
+```{r, results = 'hide', purl = FALSE}
 surveys %>%
   group_by(sex) %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
@@ -126,7 +125,7 @@ surveys %>%
 
 * You can group by multiple columns too:
 
-```{r, purl = FALSE}
+```{r, results = 'hide', purl = FALSE}
 surveys %>%
   group_by(sex, species_id) %>%
   summarize(mean_weight = mean(weight, na.rm = TRUE))
@@ -170,23 +169,254 @@ surveys %>%
 > Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
 > length for each species.
 
+```{r}
+
+```
+
 
 > ### Challenge {.challenge}
 >
 > What was the heaviest animal measured in each year? Return the columns `year`,
 > `genus`, `species`, and `weight`.
 
-## GGPLOT2
+```{r}
 
-
-```{r, echo=FALSE, purl=FALSE}
-knitr::opts_chunk$set(fig.keep='last')
 ```
 
-```{r setup, echo=FALSE, purl=FALSE}
-source("setup.R")
+
+## ggplot2
+
+
+*basic ploting capabilities are available in basic R, but ggplot2 adds more powerful plotting
+
+```{r}
+# plotting package
+library(ggplot2)
+# piping / chaining
+library(magrittr)
+# modern dataframe manipulations
+library(dplyr)
 ```
 
-There are basic ploting capabilities in basic R, but ggplot2 adds more powerful plotting capabilities.
+* load data directly from figshare.
 
+```{r}
+surveys_raw <- read.csv("http://files.figshare.com/1919744/surveys.csv")
+```
+
+* `surveys.csv` data contains some measurements of the animals caught in plots.
+
+* summary
+
+```{r}
+summary(surveys_raw)
+```
+
+* we need to clean the dataset
+* missing `species_id` in some records we need to remove 
+
+```{r}
+surveys <- surveys_raw %>%
+           filter(species_id != "")
+```
+
+* many species with low counts, let's remove the ones below 10 counts
+
+```{r}
+# count records per species
+species_counts <- surveys %>%
+                  group_by(species_id) %>%
+                  tally
+
+# get names of those frequent species
+frequent_species <- species_counts %>%
+                    filter(n >= 10) %>%
+                    select(species_id)
+
+surveys <- surveys %>%
+           filter(species_id %in% frequent_species$species_id)
+```
+
+* summary shows NA's in weight and hindfoot_length -- Let's remove rows with missing weights.
+
+```{r}
+surveys_weight_present <- surveys %>%
+                      filter(!is.na(weight))
+```
+
+> ### Challenge
+>
+> - Do the same to remove rows without `hindfoot_length`. Save results in the new dataframe.
+
+
+```{r}
+surveys_length_present <- surveys %>%
+                      filter(!is.na(hindfoot_length))
+```
+
+- How would you get the dataframe without missing values?
+
+```{r}
+surveys_complete <- surveys_weight_present %>%
+                    filter(!is.na(hindfoot_length))
+```
+
+> We can chain filtering together using pipe operator (`%>%`) introduced earlier.
+
+```{r}
+surveys_complete <- surveys %>%
+                    filter(!is.na(weight)) %>%
+                    filter(!is.na(hindfoot_length))
+```
+
+> Make simple scatter plot of `hindfoot_length` (in millimeters) as a function of
+> `weight` (in grams), using basic R plotting capabilities.
+
+```{r}
+plot(x=surveys_complete$weight, y=surveys_complete$hindfoot_length)
+```
+
+## Plotting with ggplot2
+
+* make the same plot using `ggplot2` package.
+* `ggplot2` is a plotting package that makes it easier to create complex plots
+* implements a grammar of graphics, so we can build up plots
+* ggplot requires:
+  1. bind plot to a specific data frame
+
+```{r, eval=FALSE}
+ggplot(surveys_complete)
+```
+
+  2. define aestetics (`aes`), that maps variables in the data to axes on the plot or to plotting size, shape color, etc.,
+
+```{r, eval=FALSE}
+ggplot(surveys_complete, aes(x = weight, y = hindfoot_length))
+```
+
+  3. add `geoms` -- graphical representation of the data in the plot (points, lines, bars). To add a geom to the plot use `+` operator:
+
+```{r}
+ggplot(surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point()
+```
+
+## Modifying plots
+
+* adding transparency (alpha)
+
+```{r}
+ggplot(surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point(alpha=0.1)
+```
+
+* adding colors
+
+```{r}
+ggplot(surveys_complete, aes(x = weight, y = hindfoot_length)) +
+  geom_point(alpha=0.1, color="blue")
+```
+
+## Boxplot
+
+* Visualising the distribution of weight within each species.
+
+```{r}
+ggplot(surveys_weight_present, aes(factor(species_id), weight)) +
+                   geom_boxplot()
+```
+
+* adding points to boxplot and a jitter
+
+```{r}
+ggplot(surveys_weight_present, aes(factor(species_id), weight)) +
+                   geom_jitter(alpha=0.3, color="tomato") +
+                   geom_boxplot(alpha=0)
+```
+
+> ### Challenge
+>
+> Create boxplot for `hindfoot_length`.
+
+```{r}
+
+```
+
+## Time series
+
+* counts per year for each species (group data first and count records within each group)
+
+```{r}
+yearly_counts <- surveys %>%
+                 group_by(year, species_id) %>%
+                 tally
+```
+
+* Timelapse data can be visualised as a line plot with years on x axis and counts on y.
+
+```{r}
+ggplot(yearly_counts, aes(x=year, y=n)) +
+                  geom_line()
+```
+
+* does not work -- plots data for all the species together
+* need to ggplot to split graphed data by `species_id`
+
+```{r}
+ggplot(yearly_counts, aes(x=year, y=n, group=species_id)) +
+  geom_line()
+```
+
+* add colors to distinguish species
+
+```{r}
+ggplot(yearly_counts, aes(x=year, y=n, group=species_id, color=species_id)) +
+  geom_line()
+```
+
+## Faceting
+
+* allows to split one plot into mutliple plots based on some factor
+
+```{r}
+ggplot(yearly_counts, aes(x=year, y=n, color=species_id)) +
+  geom_line() + facet_wrap(~species_id)
+```
+
+* we want to two lines each plot by sex 
+* make counts in dataframe grouped by sex.
+
+> ### Challenges:
+>
+> - filter the dataframe so that we only keep records with sex "F" or "M"s
+>
+
+```{r}
+sex_values = c("F", "M")
+surveys <- surveys %>%
+           filter(sex %in% sex_values)
+```
+
+> - group by year, species_id, sex
+
+```{r}
+yearly_sex_counts <- surveys %>%
+                     group_by(year, species_id, sex) %>%
+                     tally
+```
+
+> - make the faceted plot spliting further by sex (within single plot)
+
+```{r}
+ggplot(yearly_sex_counts, aes(x=year, y=n, color=species_id, group=sex)) +
+  geom_line() + facet_wrap(~ species_id)
+```
+
+> We can improve the plot by coloring by sex instead of species (species are
+> already in separate plots, so we don't need to distinguish them better)
+
+```{r}
+ggplot(yearly_sex_counts, aes(x=year, y=n, color=sex, group=sex)) +
+  geom_line() + facet_wrap(~ species_id)
+```
 
