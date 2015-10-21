@@ -1,0 +1,192 @@
+## Dplyr 
+
+```{r}
+setwd("~/workshops/data-manip-viz")
+```
+
+* need to load csv surveys
+
+```{r}
+surveys <- read.csv('data/surveys.csv')
+
+```
+
+* Packages in R are sets of additional functions 
+
+```{r, eval = FALSE, purl = FALSE}
+#install.packages("dplyr") ## install
+```
+
+* Choose a CRAN mirror
+
+```{r, message = FALSE, purl = FALSE}
+library("dplyr")          ## load
+```
+
+* `dplyr` provides tools for the most common data manipulation tasks
+* faster `plyr` - written in C
+* besides working with flat files, can work with external DBs
+* `dplyr` functions: `select()`,`filter()`, `mutate()`, `group_by()`, and `summarize()`
+
+* select selects columns to keep
+
+```{r, results = 'hide', purl = FALSE}
+select(surveys, plot_id, species_id, weight)
+```
+
+* choose rows with `filter`
+
+```{r, results = 'hide', purl = FALSE}
+filter(surveys, year == 1995)
+```
+
+### Pipes
+
+* allows combining functions togther 
+* uses `%>%` as a pipe - from the `magrittr` package installed as part of `dplyr`
+* Takes the output of one function and send it directly to the next
+
+```{r, purl = FALSE}
+surveys %>%
+  filter(weight < 5) %>%
+  select(species_id, sex, weight)
+```
+
+* assign to a new object 
+
+```{r, purl = FALSE}
+surveys_sml <- surveys %>%
+  filter(weight < 5) %>%
+  select(species_id, sex, weight)
+
+surveys_sml
+```
+
+> ### Challenge {.challenge}
+>
+> Using pipes, subset the data to include rows before 1995. Retain columns
+> `year`, `sex`, and `weight.`
+
+```{r}
+surveys %>%
+  filter(year < 1995) %>%
+  select(year, sex, weight)
+```
+### Mutate
+
+* create new columns based on the values in existing columns
+* unit conversions or find the ratio of values in two columns
+
+```{r, purl = FALSE}
+surveys %>%
+  mutate(weight_kg = weight / 1000)
+```
+
+* a new column of weight in kg (let;s look `head(surveys)`)
+
+```{r, purl = FALSE}
+surveys %>%
+  mutate(weight_kg = weight / 1000) 
+```
+
+```{r, purl = FALSE}
+surveys %>%
+  mutate(weight_kg = weight / 1000) %>%
+  head
+```
+
+* first few rows are full of NAs
+
+```{r, purl = FALSE}
+surveys %>%
+  mutate(weight_kg = weight / 1000) %>%
+  filter(!is.na(weight)) %>%
+  head
+```
+
+### Split-apply-combine 
+
+*split the data into groups, apply some analysis to each group, and then combine the results
+* use `group_by`
+* show image
+
+```{r, purl = FALSE}
+surveys %>%
+  group_by(sex) %>%
+  tally()
+```
+
+* `group_by()` is often used together with `summarize()` which collapses each group
+
+```{r, purl = FALSE}
+surveys %>%
+  group_by(sex) %>%
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+```
+
+* You can group by multiple columns too:
+
+```{r, purl = FALSE}
+surveys %>%
+  group_by(sex, species_id) %>%
+  summarize(mean_weight = mean(weight, na.rm = TRUE))
+
+```
+
+* most species were never weighed
+* let's discard rows where `mean_weight` is `NaN` (`NaN` refers to "Not a Number")
+
+```{r, purl = FALSE}
+surveys %>%
+  group_by(sex, species_id) %>%
+  summarize(mean_weight = mean(weight, na.rm = TRUE)) %>%
+  filter(!is.nan(mean_weight))
+```
+
+* note: abve `dplyr` has changed our `data.frame` to a `tbl_df` more concise output
+* summarize multiple variables at the same time:
+
+```{r, purl = FALSE}
+surveys %>%
+  group_by(sex, species_id) %>%
+  summarize(mean_weight = mean(weight, na.rm = TRUE),
+            min_weight = min(weight, na.rm = TRUE)) %>%
+  filter(!is.nan(mean_weight))
+```
+
+> ### Challenge {.challenge}
+>
+> How many times was each `plot_type` surveyed?
+
+```{r}
+surveys %>% 
+  group_by(plot_id) %>% 
+  tally
+  
+```
+
+> ### Challenge {.challenge}
+>
+> Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
+> length for each species.
+
+
+> ### Challenge {.challenge}
+>
+> What was the heaviest animal measured in each year? Return the columns `year`,
+> `genus`, `species`, and `weight`.
+
+## GGPLOT2
+
+
+```{r, echo=FALSE, purl=FALSE}
+knitr::opts_chunk$set(fig.keep='last')
+```
+
+```{r setup, echo=FALSE, purl=FALSE}
+source("setup.R")
+```
+
+There are basic ploting capabilities in basic R, but ggplot2 adds more powerful plotting capabilities.
+
+

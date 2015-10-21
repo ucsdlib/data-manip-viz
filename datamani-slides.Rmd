@@ -1,0 +1,31 @@
+---
+title: "Slides - Data Manipulation/Viz"
+author: "Tim Dennis"
+date: "October 18, 2015"
+output: ioslides_presentation
+---
+## Dplyr 
+
+>At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange())`, pick observations and variables of interest (`filter()` and `select()``), add new variables that are functions of existing variables (`mutate()``), or collapse many values to a summary (`summarise()`). 
+
+## Split-Apply-Combine
+
+![Split-Apply-Combine](img/splitapply.png)
+## Slide with Bullets
+
+- Bullet 1
+- Bullet 2
+- Bullet 3
+
+## Slide with R Code and Output
+
+```{r}
+summary(cars)
+```
+
+## Slide with Plot
+
+```{r, echo=FALSE}
+plot(cars)
+```
+
