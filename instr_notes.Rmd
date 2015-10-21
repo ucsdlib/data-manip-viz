@@ -67,7 +67,7 @@ surveys_sml
 > Using pipes, subset the data to include rows before 1995. Retain columns
 > `year`, `sex`, and `weight.`
 
-```{r, results = 'hide',}
+```{r, results = 'hide'}
 surveys %>%
   filter(year < 1995) %>%
   select(year, sex, weight)
@@ -75,9 +75,10 @@ surveys %>%
 ### Mutate
 
 * create new columns based on the values in existing columns
-* unit conversions or find the ratio of values in two columns
+* e.g. unit conversions or find the ratio of values in two columns
 
 ```{r, results = 'hide',purl = FALSE}
+#weight is in grams
 surveys %>%
   mutate(weight_kg = weight / 1000)
 ```
@@ -233,8 +234,12 @@ frequent_species <- species_counts %>%
                     filter(n >= 10) %>%
                     select(species_id)
 
+#use frequent_species to filter surveys
 surveys <- surveys %>%
            filter(species_id %in% frequent_species$species_id)
+```
+```{r}
+summary(surveys)
 ```
 
 * summary shows NA's in weight and hindfoot_length -- Let's remove rows with missing weights.
@@ -339,7 +344,8 @@ ggplot(surveys_weight_present, aes(factor(species_id), weight)) +
 > Create boxplot for `hindfoot_length`.
 
 ```{r}
-
+ggplot(surveys_complete, aes(factor(species_id), hindfoot_length)) +
+  geom_boxplot()
 ```
 
 ## Time series

@@ -8,24 +8,54 @@ output: ioslides_presentation
 
 >At the most basic level, you can only alter a tidy data frame in five useful ways: you can reorder the rows (`arrange())`, pick observations and variables of interest (`filter()` and `select()``), add new variables that are functions of existing variables (`mutate()``), or collapse many values to a summary (`summarise()`). 
 
+
+## Challenge 1
+
+> Using pipes, subset the data to include rows before 1995. Retain columns
+> `year`, `sex`, and `weight.`
+
+## Solution
+
+```{r}
+library(magrittr)
+surveys %>% 
+  filter(year < 1995) %>%
+  select(year, sex, weight) %>% 
+  head()
+```
+
 ## Split-Apply-Combine
 
 ![Split-Apply-Combine](img/splitapply.png)
-## Slide with Bullets
 
-- Bullet 1
-- Bullet 2
-- Bullet 3
 
-## Slide with R Code and Output
+## Challenge 2 
+
+> How many times was each `plot_type` surveyed?
+
+
+## Solution 
 
 ```{r}
-summary(cars)
+surveys %>% 
+  group_by(plot_id) %>% 
+  tally %>% 
+  head()
 ```
 
-## Slide with Plot
+## Challenge 3 
 
-```{r, echo=FALSE}
-plot(cars)
+> Use `group_by()` and `summarize()` to find the mean, min, and max hindfoot
+> length for each species.
+
+## Solution
+```{r}
+surveys %>% 
+  group_by(species_id) %>% 
+  summarize(mean_hindfoot = mean(hindfoot_length, na.rm = TRUE),
+            min_hindfoot = min(hindfoot_length, na.rm = TRUE), 
+            max_hindfoot = max(hindfoot_length, na.rm = T)) %>% 
+  filter(!is.nan(mean_hindfoot))
 ```
+
 

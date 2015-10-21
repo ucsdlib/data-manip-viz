@@ -227,7 +227,7 @@ surveys %>%
 > What was the heaviest animal measured in each year? Return the columns `year`,
 > `genus`, `species`, and `weight`.
 
-max 
+ 
 [Handy dplyr cheatsheet](http://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
 
 *Much of this lesson was copied or adapted from Jeff Hollister's [materials](http://usepa.github.io/introR/2015/01/14/03-Clean/)*
