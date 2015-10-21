@@ -43,6 +43,12 @@ This 2 hour course includes a basic introduction to  data manipulation, analysis
 ## Resources: 
 
 * [Instructor's Notes](instr_notes.html)
+* [R Graphics Cookbook](http://proquest.safaribooksonline.com/book/programming/r/9781449363086)
+* [Advanced R](http://www.crcnetbase.com/doi/book/10.1201/b17487)
+  - This is a great book that explains the basics of the R language
+* [Data Wrangling Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+* [ggplot2 Cheat Sheet](https://www.rstudio.com/wp-content/uploads/2015/03/ggplot2-cheatsheet.pdf)
+* [Speed benchmark on Dplyr](http://datascience.la/dplyr-and-a-very-basic-benchmark/)
 
 ## Requirements
 
