@@ -40,6 +40,10 @@ This 2 hour course includes a basic introduction to  data manipulation, analysis
 2. [Lesson 02 Data visualisation with ggplot2](02-visualisation-ggplot.html)
 3. [Lesson 02 SQL databases and R](02-starting-with-data.html)
 
+## Resources: 
+
+* [Instructor's Notes](instr_notes.html)
+
 ## Requirements
 
 Participants are encouraged to use their own computers to insure the proper setup of tools for an efficient workflow.
