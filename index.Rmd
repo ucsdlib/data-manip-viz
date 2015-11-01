@@ -35,14 +35,20 @@ This 2 hour course includes a basic introduction to  data manipulation, analysis
 
 ## Lessons:
 
+* Revist intro to R
+* Maniuplating data
+* Data vis
+
+<!--
 1. [Lesson 00 Before we start](00-before-we-start.html)
 2. [Lesson 01 Dplyr](01-dplyr.html)
 2. [Lesson 02 Data visualisation with ggplot2](02-visualisation-ggplot.html)
 3. [Lesson 02 SQL databases and R](02-starting-with-data.html)
+--> 
 
 ## Resources: 
 
-* [Instructor's Notes](instr_notes.html)
+<!--* [Instructor's Notes](instr_notes.html) -->
 * [R Graphics Cookbook](http://proquest.safaribooksonline.com/book/programming/r/9781449363086)
 * [Advanced R](http://www.crcnetbase.com/doi/book/10.1201/b17487)
   - This is a great book that explains the basics of the R language
