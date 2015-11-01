@@ -35,9 +35,9 @@ This 2 hour course includes a basic introduction to  data manipulation, analysis
 
 ## Lessons:
 
-* Revist intro to R
-* Maniuplating data
-* Data vis
+* Revisit intro to R
+* Maniuplating dataframes
+* Data visualization
 
 <!--
 1. [Lesson 00 Before we start](00-before-we-start.html)
