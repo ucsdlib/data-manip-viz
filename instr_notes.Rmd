@@ -1,13 +1,15 @@
 ## Dplyr 
 
 ```{r}
-setwd("~/workshops/data-manip-viz")
+setwd("~/Desktop/intro2r/")
 ```
 
 * need to load csv surveys
+* fot those not in last class, need to down load data from intro2r
 
 ```{r}
-surveys <- read.csv('data/surveys.csv')
+#download.file("http://files.figshare.com/2236372/combined.csv", "data/portal_data_joined.csv")
+surveys <- read.csv("data/portal_data_joined.csv")
 
 ```
 
@@ -31,22 +33,25 @@ library("dplyr")          ## load
 * select selects columns to keep
 
 ```{r, results = 'hide', purl = FALSE}
+# surveys[, c(5,6,9)]
 select(surveys, plot_id, species_id, weight)
 ```
 
 * choose rows with `filter`
 
 ```{r, results = 'hide', purl = FALSE}
+#surveys[surveys$year == 1995]
 filter(surveys, year == 1995)
 ```
 
-### Pipes
+### Pipes 
 
-* allows combining functions togther 
+* allows chaining functions togther 
 * uses `%>%` as a pipe - from the `magrittr` package installed as part of `dplyr`
 * Takes the output of one function and send it directly to the next
 
 ```{r, purl = FALSE}
+#filter(select(surveys, c(species, sex, weight)), weight < 5)
 surveys %>%
   filter(weight < 5) %>%
   select(species_id, sex, weight)
@@ -83,7 +88,7 @@ surveys %>%
   mutate(weight_kg = weight / 1000)
 ```
 
-* a new column of weight in kg (let;s look `head(surveys)`)
+* a new column of weight in kg (let's look `head(surveys)`)
 
 ```{r, results = 'hide', purl = FALSE}
 surveys %>%
@@ -133,7 +138,7 @@ surveys %>%
 
 ```
 
-* most species were never weighed
+* most species as a group were never weighed
 * let's discard rows where `mean_weight` is `NaN` (`NaN` refers to "Not a Number")
 
 ```{r, purl = FALSE}
@@ -171,7 +176,12 @@ surveys %>%
 > length for each species.
 
 ```{r}
-
+surveys %>% 
+  group_by(species_id) %>% 
+  summarize(mean_hindfoot = mean(hindfoot_length, na.rm = TRUE),
+            min_hindfoot = min(hindfoot_length, na.rm = TRUE), 
+            max_hindfoot = max(hindfoot_length, na.rm = T)) %>% 
+  filter(!is.nan(mean_hindfoot))
 ```
 
 
@@ -206,14 +216,17 @@ surveys_raw <- read.csv("http://files.figshare.com/1919744/surveys.csv")
 ```
 
 * `surveys.csv` data contains some measurements of the animals caught in plots.
-
+* let's look at in a file
 * summary
 
 ```{r}
 summary(surveys_raw)
+#add-on packages will have more complete descriptive stats
+#stat.desc(surveys) #from pastecs
+#surveys_raw$species_id
 ```
 
-* we need to clean the dataset
+* step 1 - we need to clean the dataset
 * missing `species_id` in some records we need to remove 
 
 ```{r}
@@ -222,6 +235,7 @@ surveys <- surveys_raw %>%
 ```
 
 * many species with low counts, let's remove the ones below 10 counts
+* try `table(surveys_raw$species_id)` to get a nice count
 
 ```{r}
 # count records per species

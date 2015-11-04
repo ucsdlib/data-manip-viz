@@ -17,6 +17,7 @@ output: ioslides_presentation
 ## Solution
 
 ```{r}
+surveys <- read.csv('/Users/jtdennis/Desktop/intro2r/data/portal_data_joined.csv')
 library(magrittr)
 surveys %>% 
   filter(year < 1995) %>%
